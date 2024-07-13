@@ -34,7 +34,7 @@ staging_events_table_create = """CREATE TABLE IF NOT EXISTS staging_events (
                                     sessionId integer,
                                     song varchar,
                                     status integer,
-                                    ts timestamp,
+                                    ts bigint,
                                     userAgent varchar,
                                     userId varchar
                                 )
