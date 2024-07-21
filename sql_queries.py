@@ -31,10 +31,10 @@ staging_events_table_create = """CREATE TABLE IF NOT EXISTS staging_events (
                                     method varchar,
                                     page varchar,
                                     registration float,
-                                    sessionId integer,
+                                    sessionId integer NOT NULL distkey sortkey,
                                     song varchar,
                                     status integer,
-                                    ts bigint,
+                                    ts bigint NOT NULL,
                                     userAgent varchar,
                                     userId varchar
                                 )
@@ -42,12 +42,12 @@ staging_events_table_create = """CREATE TABLE IF NOT EXISTS staging_events (
 
 staging_songs_table_create = """CREATE TABLE IF NOT EXISTS staging_songs (
                                     num_songs integer, 
-                                    artist_id varchar,
+                                    artist_id varchar NOT NULL distkey sortkey,
                                     artist_latitude real,
                                     artist_longitude real, 
                                     artist_location VARCHAR(500), 
                                     artist_name VARCHAR(500), 
-                                    song_id varchar, 
+                                    song_id varchar NOT NULL, 
                                     title VARCHAR(500), 
                                     duration real, 
                                     year integer
@@ -56,11 +56,11 @@ staging_songs_table_create = """CREATE TABLE IF NOT EXISTS staging_songs (
 
 songplay_table_create = """CREATE TABLE IF NOT EXISTS songplays (
                                     songplay_id int IDENTITY (0,1) PRIMARY KEY,
-                                    start_time timestamp, 
-                                    user_id varchar,
+                                    start_time timestamp NOT NULL sortkey, 
+                                    user_id varchar NOT NULL,
                                     level varchar,
-                                    song_id varchar,
-                                    artist_id varchar,
+                                    song_id varchar NOT NULL,
+                                    artist_id varchar NOT NULL distkey,
                                     session_id int,
                                     location varchar,
                                     user_agent varchar
@@ -72,14 +72,14 @@ user_table_create = """CREATE TABLE IF NOT EXISTS users (
                                     first_name varchar,
                                     last_name varchar,
                                     gender varchar,
-                                    level varchar)
+                                    level varchar sortkey)
 """
 
 song_table_create = """CREATE TABLE IF NOT EXISTS songs (
                                     song_id varchar PRIMARY KEY,
                                     title VARCHAR(500),
                                     artist_id varchar,
-                                    year integer,
+                                    year integer sortkey,
                                     duration numeric)
 """
 
@@ -92,7 +92,7 @@ artist_table_create = """CREATE TABLE IF NOT EXISTS artists (
 """
 
 time_table_create = """CREATE TABLE IF NOT EXISTS time (
-                                    start_time timestamp PRIMARY KEY,
+                                    start_time timestamp PRIMARY KEY sortkey,
                                     hour integer,
                                     day integer,
                                     week integer,
